@@ -13,7 +13,7 @@ public class TestEnumF {
         System.out.println(EnumF.Monday);
         System.out.println(EnumF.valueOf("Monday"));
         System.out.println("-------------------------");
-        System.out.println(EnumF.values());
+        System.out.println(Arrays.toString(EnumF.values()));
         EnumF[] values = EnumF.values();
         Arrays.stream(values).forEach(System.out::println);
     }
@@ -24,7 +24,7 @@ enum EnumF {
     Wednesday(2);
 
     private Integer index;
-    private EnumF (Integer index) {
+    EnumF (Integer index) {
         this.index = index;
     }
 

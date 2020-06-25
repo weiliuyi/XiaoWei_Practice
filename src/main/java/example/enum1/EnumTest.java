@@ -12,6 +12,7 @@ public class EnumTest {
         System.out.println(Week.Fri);
         System.out.println(Week.Sat);
         EnumF monday = EnumF.Monday;
+        System.out.println(monday);
         System.out.println(Week.getByIndex(1));
         System.out.println(Week.getByIndex(8));
     }
@@ -19,6 +20,7 @@ public class EnumTest {
 
 
 enum Week {
+
     Mon(1,"星期一"),
     Tues(2,"星期二"),
     Wed(3,"星期三"),
@@ -29,7 +31,7 @@ enum Week {
     Unk(-1,"星期8");
     private Integer index;
     private String name;
-    private Week (Integer index, String name) {
+    Week (Integer index, String name) {
         this.index = index;
         this.name = name;
     }
