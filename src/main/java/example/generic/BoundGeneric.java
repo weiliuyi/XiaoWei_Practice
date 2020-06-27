@@ -11,6 +11,7 @@ public class BoundGeneric {
 
     @Test
     public void test1 () {
+
         ArrayMaker<String> arrayMaker = new ArrayMaker<>(String.class);
         String[] strs = arrayMaker.createInstance(2);
         System.out.println(Arrays.toString(strs));

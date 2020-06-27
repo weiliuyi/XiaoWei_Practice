@@ -7,8 +7,12 @@ import java.util.Arrays;
 
 public class EnumTest {
 
+
+
     @Test
     public void test1 () {
+
+
         System.out.println(Week.Fri);
         System.out.println(Week.Sat);
         EnumF monday = EnumF.Monday;
