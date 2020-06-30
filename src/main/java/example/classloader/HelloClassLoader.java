@@ -32,6 +32,8 @@ class ClassLoaderTest {
 
 
     public static void main(String[] args) throws Exception {
+
+
         String path = "D:\\temp\\";
         MyClassLoader xiaowangClassLoader = new MyClassLoader(path, "xiaowang");
         System.out.println(xiaowangClassLoader.getParent());
