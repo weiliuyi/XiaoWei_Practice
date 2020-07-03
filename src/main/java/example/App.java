@@ -3,6 +3,7 @@ package example;
 import org.junit.Test;
 import sun.misc.Launcher;
 
+import java.time.Instant;
 import java.util.HashMap;
 
 /**
@@ -55,7 +56,20 @@ public class App
         Object obj = clazz.newInstance();
         System.out.println(obj.getClass().getClassLoader());
         System.out.println(clazz.newInstance().toString());
+    }
+    
+    @Test
+    public void test3 () {
+        int i = 0;
+        while (i < 100) {
+            System.out.println((int)((Math.random()*9+1)*100000));
+            i++;
+        }
+    }
 
 
+    @Test
+    public void test4 () {
+        System.out.println(Instant.now().toEpochMilli());
     }
 }
