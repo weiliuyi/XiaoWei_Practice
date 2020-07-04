@@ -31,7 +31,7 @@ public class InstanceCreateGeneric {
 
 class ClassAsFactory<T> {
     private T kind;
-    @SuppressWarnings("deprecation")
+
     ClassAsFactory(Class<T> kind) throws Exception {
         this.kind = kind.newInstance();
     }
