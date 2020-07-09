@@ -4,7 +4,6 @@ import org.junit.Test;
 import sun.misc.Launcher;
 
 import java.time.Instant;
-import java.util.HashMap;
 
 /**
  * Hello world!
@@ -12,6 +11,7 @@ import java.util.HashMap;
  */
 public class App 
 {
+
     public static void main( String[] args )
     {
         System.out.println(1 << 1);
@@ -44,6 +44,8 @@ public class App
         Class<?> clazz = classLoader.loadClass("example.App");
          App app = (App) clazz.newInstance();
          //ClassCastException example.App cannot  be cast to exmaple.App
+
+
         //tip:自己创建的应用类加载器，和操作系统使用的类加载器不是同一个；
     }
 

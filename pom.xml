@@ -69,8 +69,16 @@
       <version>4.3.19.RELEASE</version>
     </dependency>
 
-
-
+    <dependency>
+      <groupId>org.openjdk.jol</groupId>
+      <artifactId>jol-core</artifactId>
+      <version>0.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.example</groupId>
+      <artifactId>spi_test</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>

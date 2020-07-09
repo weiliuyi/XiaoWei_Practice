@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.stream.Stream;
 
 class ClassLoaderTest {
 
@@ -21,6 +22,7 @@ class ClassLoaderTest {
         Object hello = clazz.newInstance();
     }
 
+    @Test
     public void test () throws Exception {
         String path = "D:\\workspace\\XiaoWei_Practice\\src\\main\\java\\";
         MyClassLoader xiaowangClassLoader = new MyClassLoader(path, "xiaowang");
@@ -32,13 +34,12 @@ class ClassLoaderTest {
 
 
     public static void main(String[] args) throws Exception {
-
-
         String path = "D:\\temp\\";
         MyClassLoader xiaowangClassLoader = new MyClassLoader(path, "xiaowang");
         System.out.println(xiaowangClassLoader.getParent());
         Class<?> clazz = xiaowangClassLoader.findClass("com.example.HelloClassLoader2");
         Object o = clazz.newInstance();
+        //Stream.of(System.getProperty("java.class.path").split(";")).forEach(System.out::println);
 
     }
 

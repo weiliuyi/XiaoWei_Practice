@@ -1,9 +1,6 @@
 package java.lang;
 
-import org.junit.Test;
-import sun.misc.Launcher;
-
-public class String {
+public class StringHello {
     @Override
     public String toString() {
         return "String{hello! this is my String}";
