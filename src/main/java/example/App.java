@@ -20,8 +20,6 @@ public class App
         System.out.println(Integer.toBinaryString(-3));
         System.out.println(-3 >>> 1);
         System.out.println(Integer.toBinaryString(-3 >>> 1));
-
-
     }
 
 

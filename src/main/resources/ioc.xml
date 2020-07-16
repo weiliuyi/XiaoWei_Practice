@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--注册一个对象，spring回自动创建这个对象-->
+    <!--
+    一个bean标签就表示一个对象
+    id:这个对象的唯一标识
+    class:注册对象的完全限定名
+    -->
+    <bean id="person" class="example.spring.Person">
+        <!--使用property标签给对象的属性赋值
+        name:表示属性的名称
+        value：表示属性的值
+        -->
+        <property name="id" value="1"></property>
+        <property name="name" value="zhangsan"></property>
+        <property name="age" value="18"></property>
+        <property name="gender" value="男"></property>
+    </bean>
+</beans>
