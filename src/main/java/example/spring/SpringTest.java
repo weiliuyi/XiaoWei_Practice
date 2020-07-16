@@ -8,5 +8,6 @@ public class SpringTest {
         ApplicationContext context = new ClassPathXmlApplicationContext("ioc.xml");
         Person person = context.getBean("person", Person.class);
         System.out.println(person);
+
     }
 }
