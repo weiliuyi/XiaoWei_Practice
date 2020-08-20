@@ -1,9 +1,9 @@
-package example.base;
+package example.base.path;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @description: cas的操作
+ * @description:  cas的操作
  * @author: weiliuyi
  * @create: 2020--20 17:02
  **/
@@ -16,5 +16,7 @@ public class CasOperation {
 
     public static void main(String[] args) throws NoSuchFieldException {
         System.out.println(AtomicInteger.class.getDeclaredField("value"));
+
+
     }
 }
