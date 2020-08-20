@@ -74,4 +74,9 @@ public class App
     public void test4 () {
         System.out.println(Instant.now().toEpochMilli());
     }
+
+    @Test
+    public void test5() {
+        System.out.println(String.valueOf("ab3efg42").getBytes().length);
+    }
 }

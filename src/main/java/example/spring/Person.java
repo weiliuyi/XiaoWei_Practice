@@ -63,18 +63,6 @@ public class Person implements BeanPostProcessor,
    // public void
 
     @Override
-    public Object postProcessBeforeInitialization(Object o, String s) throws BeansException {
-        System.out.println("BeanPostProcessor Interface  PostProcessBeforeInitialization ");
-        return o;
-    }
-
-    @Override
-    public Object postProcessAfterInitialization(Object o, String s) throws BeansException {
-        System.out.println("BeanPostProcessor Interface  PostProcessAfterInitialization" );
-        return o;
-    }
-
-    @Override
     public void setBeanName(String name) {
         System.out.println("BeanNameAware Interface " + name);
     }
@@ -97,5 +85,17 @@ public class Person implements BeanPostProcessor,
     @Override
     public void destroy() throws Exception {
         System.out.println("DisposableBean Interface destroy");
+    }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("BeanPostProcessor Interface postProcessBeforeInitialization");
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("BeanPostProcessor Interface postProcessAfterInitialization");
+        return bean;
     }
 }
