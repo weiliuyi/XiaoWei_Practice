@@ -1,4 +1,4 @@
-package example.path;
+package example.base.path;
 
 import org.junit.Test;
 

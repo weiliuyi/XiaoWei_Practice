@@ -18,37 +18,44 @@ public class QuickOrder {
 
     /**
      * 每次讲数组一分为二，然后在各自的子数组中进行排序； 递归的思想；
-     *
+     * <p>
      * 快速排序的思想：每次随机选定一个数，将小于这个数的放在左边，将大于这个数放在右边；每次操作之后，都会有一个数归为；
      * 选定一个Pivot，之后，从数组的末尾到开始扫描，寻找比pivot小的数据，
      * 2.然后从左向右寻找比Pivot大的数据；
      *
-     *
-     * @param array  数组
-     * @param fromIndex  起始index
+     * @param array     数组
+     * @param fromIndex 起始index
      * @param toIndex   末尾index
      */
     private static void quickOrder(int[] array, int fromIndex, int toIndex) {
-        int pivot = partition(array, fromIndex, toIndex);
-        quickOrder(array, fromIndex, pivot - 1);
-        quickOrder(array, pivot + 1, toIndex);
+        if (fromIndex < toIndex) {
+            int index = partition(array, fromIndex, toIndex);
+            quickOrder(array, fromIndex, index - 1);
+            quickOrder(array, index + 1, toIndex);
+        }
     }
 
+    /**
+     * 每次讲数组一分为二，左边的小于基准值pivot，右边的大于基准值pivot
+     */
     private static int partition(int[] array, int low, int high) {
         int pivot = array[low];
         while (low < high) {
             while (array[high] > pivot && low < high) {
                 high--;
             }
-            if (low < high && array[high] <= pivot) {
+            //这个地方可以进行优化  要么是low == high  要么是 array[high] <= pivot
+            /*if (low < high && array[high] <= pivot) {
                 array[low] = array[high];
-            }
+            }*/
+            array[low] = array[high];
             while (array[low] < pivot && low < high) {
                 low++;
             }
-            if (low < high && array[low] >= pivot) {
+            /*if (low < high && array[low] >= pivot) {
                 array[high] = array[low];
-            }
+            }*/
+            array[high] = array[low];
         }
         array[low] = pivot;
         System.out.println(Arrays.toString(array));

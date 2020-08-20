@@ -19,20 +19,72 @@ public class HeapOrder {
     *
     *父节点为：(i - 1) / 2
     *
-    * 小根堆
+    *
     * */
     public static void main(String[] args) {
         int[] array = {5, 3, 1, 9, 7, 6, 4};
-        initHeap(array);
+//        initHeap(array);
+//        System.out.println(Arrays.toString(array));
+        heapOrder(array);
         System.out.println(Arrays.toString(array));
     }
 
-
-    private static void initHeap(int[] array) {
+    /**
+     * 将无序数组初始化成为一个堆；
+     * 从最后一个节点的父节点进行使用筛选法进行；
+     * 从下向上进行初始化；
+     */
+    private static void initHeap(int[] array) {   //将一个数组初始化为一个堆
         for (int i = (array.length - 2) / 2; i >= 0; i--) {
-            heapify(array, i,array.length - 1);
+            //heapify(array, i,array.length - 1);
+            bigHeapify(array,i,array.length-1);
         }
     }
+
+
+    /**
+     * 堆排序
+     * @param array
+     */
+    private static void heapOrder (int[] array) {
+        initHeap(array);
+        int end = array.length-1;
+        while (end > 0) {
+            swap(array,0,end);
+            end--;
+            bigHeapify(array,0,end);
+        }
+    }
+
+
+    /**
+     * 初始化大根堆
+     */
+
+    private static void bigHeapify (int[] array ,int index,int endIndex) {
+        if (2 * index + 1 > endIndex) {
+            return;
+        }
+        int left = 2 * index + 1;
+        int right = 2 * index +2;
+        int max = array[index];
+        int target = index;
+        if (max < array[left]) {
+            max = array[left];
+            target = left;
+        }
+        if (right <= endIndex && max < array[right]) {
+            target = right;
+        }
+        if (target != index) {
+            swap(array,target,index);
+            bigHeapify(array,target,endIndex);
+        }
+
+    }
+
+
+
 
     /**
      * 将数组初始化小根堆

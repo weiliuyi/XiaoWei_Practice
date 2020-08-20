@@ -39,6 +39,10 @@ public class ArrayConversion {
         return count;
     }
 
+
+    /**
+     * 加上a，减去a，并且不改变这个数除以a的余数，判断余数是否相同，就可以判断是否有解；
+     */
     private static boolean isCanResolve(int [] array,int dur) {
         boolean result = true;
         int reminder = array[0] % dur;

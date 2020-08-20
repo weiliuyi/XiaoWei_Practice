@@ -1,4 +1,4 @@
-package example.enum1;
+package example.base.enum1;
 
 import org.junit.Test;
 

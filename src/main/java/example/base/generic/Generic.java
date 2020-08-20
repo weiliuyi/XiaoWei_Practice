@@ -1,4 +1,4 @@
-package example.generic;
+package example.base.generic;
 
 public class Generic <T> {
     private T item;
