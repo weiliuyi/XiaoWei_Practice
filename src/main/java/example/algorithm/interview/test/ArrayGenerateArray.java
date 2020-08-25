@@ -46,6 +46,7 @@ public class ArrayGenerateArray {
      * @return 返回创建的二叉树
      */
     private static TreeNode generateBTree(int[] array, int lIndex, int rIndex) {
+
         if (lIndex > rIndex) {
             return null;
         }
