@@ -12,7 +12,7 @@ public class ThreadTest {
     /**
      *Thread类中调用interrupt()  interrupted() isInterrupted()
      * interrupt() 终端当前线程，只是将终端标志设置为true;  对象方法
-     * interrupted 测试当前的中断状态，是Thread类的静态方法，并且清楚终端状态；
+     * interrupted 测试当前的中断状态，是Thread类的静态方法，并且清除中断状态；
      * isInterrupted() 返回当前线程的状态
      */
 
@@ -23,7 +23,7 @@ public class ThreadTest {
         thread.start();
         Thread.sleep(5);
         thread.interrupt(); //对象方法
-        System.out.println("-------------" + thread.interrupted());
+        System.out.println("------------------" + thread.interrupted()); //当前线程的中断状态，如果中断，并且清楚终端状态  ---- 当前线程是main线程而不是thread线程
         System.out.println("------------------" +  thread.interrupted());
 
     }

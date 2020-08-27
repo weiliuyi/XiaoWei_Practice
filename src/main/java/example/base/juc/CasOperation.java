@@ -17,6 +17,5 @@ public class CasOperation {
     public static void main(String[] args) throws NoSuchFieldException {
         System.out.println(AtomicInteger.class.getDeclaredField("value"));
 
-
     }
 }
