@@ -7,7 +7,7 @@ package example.algorithm.interview.test;
  * @author: weiliuyi
  * @create: 2020--25 15:58
  **/
-public class ArrayGenerateVersion1 {
+public class ArrayGenerateTreeVersion1 {
 
 
     /**

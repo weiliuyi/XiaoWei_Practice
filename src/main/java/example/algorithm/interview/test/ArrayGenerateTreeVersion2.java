@@ -5,7 +5,7 @@ package example.algorithm.interview.test;
  * @author: weiliuyi
  * @create: 2020--25 17:37
  **/
-public class ArrayGenerateVersion2 {
+public class ArrayGenerateTreeVersion2 {
 
     /**
      * 二叉树的节点
@@ -34,7 +34,6 @@ public class ArrayGenerateVersion2 {
         char[] inOrder = new char[]{'D', 'B', 'E', 'A', 'F', 'C', 'G'}; // 中序
         TreeNode tree = generateBtree(preOrder, 0, preOrder.length - 1, inOrder, 0, inOrder.length - 1);
         afterOrder(tree);//后序遍历输出结果
-
     }
 
     /**
