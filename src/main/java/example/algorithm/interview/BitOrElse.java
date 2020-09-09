@@ -92,4 +92,18 @@ public class BitOrElse {
         System.out.println("number a : " + a + " number b : " + (result ^ a));
     }
 
+    /**
+     * 不适用中间变量，交换两个变量
+     *
+     */
+
+    @Test
+    public void test4 () {
+        int a = 1,b = 2;
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+        System.out.println("a = " + a + " b = " + b);
+    }
+
 }
