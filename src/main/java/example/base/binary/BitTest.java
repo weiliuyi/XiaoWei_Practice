@@ -81,4 +81,11 @@ public class BitTest {
      *  &  按位与
      *
      */
+
+    @Test
+    public void test5 () {
+        System.out.println(Integer.toBinaryString(4));
+        //取非操作
+        System.out.println(Integer.toBinaryString(~4));
+    }
 }
