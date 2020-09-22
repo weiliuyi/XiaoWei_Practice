@@ -3,10 +3,8 @@ package example.algorithm.interview.test;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @description: 滑动窗口技术
@@ -324,10 +322,10 @@ public class SlidingWindow {
         int n = s.length(), ans = 0;
         //使用hashmap记录遍历过的字符的索引，当发现重复的字符时，可以将窗口的左边直接跳到该重复字符的索引处
         Map<Character, Integer> map = new HashMap<>(); // current index of character
-        // try to extend the range [i, j]
+        // try to extend the range [i, j]  i 代表左起点，j代表右起点
         for (int j = 0, i = 0; j < n; j++) {//j负责向右边遍历，i根据重复字符的情况进行调整
             if (map.containsKey(s.charAt(j))) {//当发现重复的字符时,将字符的索引与窗口的左边进行对比，将窗口的左边直接跳到该重复字符的索引处
-                i = Math.max(map.get(s.charAt(j)), i);
+                i = Math.max(map.get(s.charAt(j)), i);  //什么情况下会出现，j重复字符下标小于 i ？？？？？？
             }
             //记录子字符串的最大的长度
             ans = Math.max(ans, j - i + 1);
@@ -337,5 +335,14 @@ public class SlidingWindow {
         return ans;
     }
 
+
+
+    @Test
+    public void test7 () {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -3);
+        long createTime = Long.parseLong(new SimpleDateFormat("yyyyMMddHHmmss").format(c.getTime()));
+        System.out.println(createTime);
+    }
 
 }
