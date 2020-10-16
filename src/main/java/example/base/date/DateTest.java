@@ -34,7 +34,7 @@ public class DateTest {
     }
 
     @Test
-    public void test2() {
+    public void test2() throws InterruptedException {
         System.out.println(Clock.systemDefaultZone().getZone());
         //LocalDateTime now = LocalDateTime.now(ZoneId);
         //System.out.println(now);
@@ -51,6 +51,11 @@ public class DateTest {
         ZonedDateTime now = ZonedDateTime.now();
         System.out.println(now.getZone());
         System.out.println(now.toInstant().toEpochMilli());
+        //Duration
+        Instant start = Instant.now();
+        Thread.sleep(1500);
+        long l = Duration.between(start, Instant.now()).toMillis();
+        System.out.println(l);
 
     }
 
