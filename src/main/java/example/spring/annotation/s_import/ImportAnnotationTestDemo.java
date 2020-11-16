@@ -1,6 +1,10 @@
 package example.spring.annotation.s_import;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportSelector;
+import org.springframework.core.type.AnnotationMetadata;
 
 /**
  * @description:
@@ -17,4 +21,30 @@ public class ImportAnnotationTestDemo {
         }
 
     }
+}
+
+class AccountDao2 {
+}
+class TestDemo2 {
+}
+
+@Import({Object1.class,Object2.class,TestDemo2.class, MyClass.class})
+ class TestDemo {
+
+    @Bean
+    public AccountDao2 accountDao2 () {
+        return new AccountDao2();
+    }
+}
+
+class MyClass implements ImportSelector {
+    @Override
+    public String[] selectImports(AnnotationMetadata annotationMetadata) {
+        return new String[]{"example.spring.annotation.s_import.TestDemo3"};
+    }
+}
+class Object1 {
+}
+
+class Object2 {
 }

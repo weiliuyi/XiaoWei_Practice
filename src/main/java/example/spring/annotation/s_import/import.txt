@@ -1,0 +1,4 @@
+import
+1.只能作用在类上
+2.
+   2.1 普通类  2.2： 实现ImportSelectors接口 2.3：实现ImportBeanDefinitionRegistry接口

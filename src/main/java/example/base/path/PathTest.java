@@ -10,4 +10,10 @@ public class PathTest {
         System.out.println("getResource(“”) :" + PathTest.class.getResource(""));//file:/D:/workspace/XiaoWei_Practice/target/classes/example/path/
 
     }
+
+    @Test
+    public void test2 () {
+        String path = System.getProperty("serviceframe.config.path");
+        System.out.println("serviceframe.config.path:" + path);
+    }
 }
