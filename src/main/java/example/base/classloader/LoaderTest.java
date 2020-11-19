@@ -1,4 +1,4 @@
-package example.classloader;
+package example.base.classloader;
 
 import org.junit.Test;
 

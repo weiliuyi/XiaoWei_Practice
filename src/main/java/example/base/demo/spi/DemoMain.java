@@ -1,4 +1,4 @@
-package example.spi.demo;
+package example.base.demo.spi;
 
 import org.example.demo.Perform;
 import org.example.demo.Singer;
@@ -15,11 +15,11 @@ public class DemoMain {
         Singer singer = new Singer();
         //singer.show();
 
-        ServiceLoader<Perform> performs = ServiceLoader.load(Perform.class,null);
-        performs.forEach(perform-> perform.show());
+       /* ServiceLoader<Perform> performs = ServiceLoader.load(Perform.class,null);
+        performs.forEach(perform-> perform.show());*/
 
 
 
-        System.out.println(Perform.class.getName());
+//        System.out.println(Perform.class.getName());
     }
 }

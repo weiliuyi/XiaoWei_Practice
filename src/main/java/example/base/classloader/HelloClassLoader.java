@@ -1,4 +1,4 @@
-package example.classloader;
+package example.base.classloader;
 
 
 
@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.stream.Stream;
 
 class ClassLoaderTest {
 
@@ -17,7 +16,7 @@ class ClassLoaderTest {
         String path = "D:\\workspace\\XiaoWei_Practice\\target\\classes\\";
         MyClassLoader xiaoweiClassLoader = new MyClassLoader(path, "xiaowei");
         MyClassLoader xiaowangClassLoader = new MyClassLoader(path, "xiaowang");
-        Class<?> clazz = xiaoweiClassLoader.findClass("example.classloader.HelloClassLoader");
+        Class<?> clazz = xiaoweiClassLoader.findClass("example.base.classloader.HelloClassLoader");
         @SuppressWarnings("unused")
         Object hello = clazz.newInstance();
     }
@@ -27,7 +26,7 @@ class ClassLoaderTest {
         String path = "D:\\workspace\\XiaoWei_Practice\\src\\main\\java\\";
         MyClassLoader xiaowangClassLoader = new MyClassLoader(path, "xiaowang");
         MyClassLoader xiaoweiClassLoader = new MyClassLoader(xiaowangClassLoader,path, "xiaowei");
-        Class<?> clazz = xiaoweiClassLoader.findClass("example.classloader.HelloClassLoader");
+        Class<?> clazz = xiaoweiClassLoader.findClass("example.base.classloader.HelloClassLoader");
         @SuppressWarnings("unused")
         Object hello = clazz.newInstance();
     }

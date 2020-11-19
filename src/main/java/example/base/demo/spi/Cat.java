@@ -1,4 +1,4 @@
-package example.spi.demo;
+package example.base.demo.spi;
 
 public class Cat implements Ishout {
     @Override
