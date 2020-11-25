@@ -34,6 +34,8 @@
     <orderEntry type="library" name="Maven: org.openjdk.jol:jol-core:0.9" level="project" />
     <orderEntry type="library" name="Maven: org.example:spi_test:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.11" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.4" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.validator:hibernate-validator:6.1.5.Final" level="project" />
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />

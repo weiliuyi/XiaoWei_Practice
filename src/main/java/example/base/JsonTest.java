@@ -2,6 +2,10 @@ package example.base;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @description:
@@ -13,14 +17,24 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class JsonTest {
     public static void main(String[] args) {
-        MyJson myJson = new MyJson();
+       /* MyJson myJson = new MyJson();
         myJson.setAge(11);
-        System.out.println(JSON.toJSONString(myJson));
+        System.out.println(JSON.toJSONString(myJson));*/
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("example.base");
+        MyJson bean = context.getBean(MyJson.class);
+        System.out.println(JSON.toJSONString(bean));
     }
 }
 
+@Component
 class MyJson {
+
     private int age;
+
+    @PostConstruct
+    public void testPostConstruct()  {
+        System.out.println("hello,I ma postConstruct注解");
+    }
 
     public int getAge() {
         return age;
