@@ -88,4 +88,9 @@ public class BitTest {
         //取非操作
         System.out.println(Integer.toBinaryString(~4));
     }
+
+    @Test
+    public void test6 () {
+
+    }
 }
