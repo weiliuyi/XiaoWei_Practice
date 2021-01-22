@@ -19,14 +19,14 @@ public class Main {
     public void test1 () {
         Annotation[] annotations = Son.class.getAnnotations();
         System.out.println(Arrays.toString(annotations));
-        // A ,B
+        // A ,B D
     }
 
     @Test
     public void test2 () {
         Annotation[] annotations = Son.class.getDeclaredAnnotations();
         System.out.println(Arrays.toString(annotations));
-        // A,B
+        // A,B D
     }
 
     @Test

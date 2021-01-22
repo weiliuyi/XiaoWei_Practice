@@ -53,6 +53,10 @@ class MinStack {
     /**
      * 压栈的时候，如果当前元素小于等于minStack的栈顶元素，那么此时需要把此元素也要压入minStack
      * @param t 压入的元素
+     *
+     *          问题：为什么等于的也要放入到小栈中去？？
+     *          这和出栈的逻辑有关系，出栈的时候，数据栈中的元素 等与 最小栈的时候，最小栈中的元素也要出栈；
+     *
      */
     void push(Integer t) {
         dataStack.push(t);

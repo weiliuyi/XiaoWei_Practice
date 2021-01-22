@@ -1,19 +1,33 @@
 package example.base.date;
 
 import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.tomcat.jni.Local;
 import org.junit.Test;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import static java.time.format.DateTimeFormatter.ISO_ORDINAL_DATE;
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 
@@ -142,7 +156,35 @@ public class DateTest {
 
     @Test
     public void test11 () {
+        String s = DateUtil.beginOfDay(new Date()).toString();
+        System.out.println(s);
 
+        String format = DateUtil.format(new Date(), new SimpleDateFormat("yyyy-MM-dd"));
+        System.out.println(format);
+
+        System.out.println(defaultFormatDate(new Date()));
+        System.out.println("------------------------------------");
+
+        System.out.println(defaultFormatDate(new Date(System.currentTimeMillis()-  (long)1000 * 3600 * 24  * 60)));
+        System.out.println(defaultFormatDate(new Date(System.currentTimeMillis())));
+
+        System.out.println("-----------");
+        int in =  1000 * 3600 * 24  * 12;
+        System.out.println(in);
+        long in60 =  (long)1000 * 3600 * 24  * 60;
+        System.out.println(in60);
+
+
+        System.out.println(Integer.MAX_VALUE);
+    }
+
+
+    private String defaultFormatDate (Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
     }
 
 class  MyObject{
@@ -253,5 +295,154 @@ class  MyObject{
         System.out.println();
         System.out.println(new Date().toInstant().toEpochMilli());
         System.out.println(System.currentTimeMillis());
+    }
+
+
+    @Test
+    public void test20 () {
+        People w1 = new People(20, "w");
+        People w2 = new People(19, "l");
+        People w3 = new People(25, "y");
+        People w4 = new People(16, "1");
+        List<People> collect = Arrays.asList(w1, w2, w3, w4).stream().sorted(Comparator.comparing(People::getAge).reversed()).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(collect));
+        List list = collect;
+        System.out.println(JSON.toJSONString(list));
+
+
+    }
+
+
+    @Test
+    public void test21 () {
+        String date = "2020-12-07";
+        DateTime parse = DateUtil.parse(date);
+        System.out.println(parse);
+        DateTime dateTime1 = DateUtil.offsetDay(parse, -7);
+        System.out.println(dateTime1);
+
+
+        DateTime dateTime = DateUtil.lastWeek();
+        System.out.println(dateTime);
+
+    }
+
+
+    @Test
+    public void test22 () {
+        DateTime dateTime = DateUtil.beginOfMonth(new Date());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+        System.out.println(simpleDateFormat.format(dateTime));
+    }
+
+    @Test
+    public void test23 () {
+        Long now = 99L;
+        Long before = 66L;
+        double v = new BigDecimal((Double.valueOf(now) - before) / now * 100).setScale(2,BigDecimal.ROUND_HALF_DOWN).doubleValue();
+        System.out.println(v);
+    }
+
+    @Test
+    public void test24 () {
+        Double aDouble = calculateIncreasePercent(90.0, 0.0, Function.identity());
+        System.out.println(aDouble);
+        String beginMonthDayStr = "2020-12-15";
+        DateTime dateTime = DateUtil.parse(beginMonthDayStr);
+        String format = DateUtil.format(dateTime, "MM-dd");
+        System.out.println(format);
+    }
+
+
+
+    @Test
+    public void test25 () throws ParseException {
+        DateTime parse = DateUtil.parse("2020-12-05");
+        System.out.println(DateUtil.offsetDay(parse,-7));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date parse1 = sdf.parse("2020-12-05");
+        System.out.println(parse1);
+    }
+
+
+    @Test
+    public void test27() {
+        DateTime dateTime = DateUtil.parseDate("2020-12-15");
+        Date date = new Date(dateTime.getTime());
+        System.out.println(date);
+
+        DateTime dateTime2 = DateUtil.endOfMonth(new Date());
+        String format = DateUtil.format(dateTime2, "yyyy-MM-dd");
+        System.out.println(format);
+
+        System.out.println(new Date(1608282667000L));
+
+    }
+
+   @Test
+   public void test26 () {
+       String substring = "2020-11-30".substring(0, 7);
+       System.out.println(substring);
+   }
+
+    /**
+     * 计算增长的百分比
+     */
+    private <T,N extends Number> Double calculateIncreasePercent (T now, T before,Function<T,N> function) {
+        N nowNum = function.apply(now);
+        N beforeNum = function.apply(before);
+        if (nowNum == null ) { //只要是当前数据为null,
+            return Double.valueOf("0.00");
+        }
+        // now 不等于null时
+        if (beforeNum == null || beforeNum.doubleValue() == 0) {
+            return Double.valueOf("1.00");
+        }
+        return  new BigDecimal((nowNum.doubleValue() - beforeNum.doubleValue()) / beforeNum.doubleValue()).
+                setScale(5,BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+}
+
+
+ class Sum{
+    public static void main(String [] args){
+        int j=10;
+        System.out.println("j is : "+j);
+        calculate(j);
+        System.out.println("At last, j is : "+j);
+    }
+    static void calculate (int j){
+        for (int i = 0;i<10;i++)
+            j++;
+        System.out.println("j in calculate() is: "+j);
+    }
+}
+
+
+
+class People {
+    private Integer age;
+
+    private String name;
+
+    public People(Integer age, String name) {
+        this.age = age;
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
