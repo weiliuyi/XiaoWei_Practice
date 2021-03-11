@@ -30,6 +30,7 @@ public class PlalinDromeString {
         String content = "weiiew";
         System.out.println(isPlalindromV3(content, 0, content.length() - 1));
         System.out.println(isPlalindromV3(content, 0, content.length() - 1));
+
     }
 
 
@@ -48,6 +49,7 @@ public class PlalinDromeString {
     @Test
     public void testV6() {
         System.out.println(getPlalindromeSeq("abccbadefgaaaa"));
+        System.out.println(getPlalindromeDp("abccbadefgaaaa"));
     }
 
     @Test
@@ -95,6 +97,42 @@ public class PlalinDromeString {
         }
        //这个地方比较特殊，跳出循环的时候 cen1 == -1 或者 cen2 == content.length 这两种情况，但是此时是回文串，所有要进行处理，不能返回
         return content.substring(cen1+1,cen2);
+    }
+
+
+    /**
+     * 使用动态规划解决最大回文子串
+     *
+     * 如果是回文串的话
+     * dp[i,j] = dp[i+1,j-1] str[i] = str[j];
+     * dp[i,j] = 0 str[i] != str[j];
+     * 初始状态
+     * dp[i,i]=1;
+     * dp[i,i+1] = 1; if str[i] == str[i+1]
+     * @param content
+     * @return
+     */
+    public String getPlalindromeDp(String content) {
+        int length = content.length();
+        int [][] dp = new int[length][length];
+        for (int i = 0;i < content.length();i++) { //初始化dp数组
+            dp[i][i] = 1;
+            if (i != length - 1 && content.charAt(i) == content.charAt(i+1)) {
+                dp[i][i+1] = 1;
+            }
+        }
+        String result = "";
+        for (int len = 3;len <= length; len++) {
+            for (int i = 0;i + len -1 < length;i++) {
+                int j = i + len -1; //末尾的指针
+                if (content.charAt(i) == content.charAt(j) && dp[i+1][j-1] == 1) {
+                    dp[i][j] = 1;
+                    String sub = content.substring(i,j+1);
+                    result = result.length() < sub.length() ? sub : result;
+                }
+            }
+        }
+        return result;
     }
 
 

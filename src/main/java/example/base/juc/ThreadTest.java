@@ -21,9 +21,10 @@ public class ThreadTest {
     public void main() throws InterruptedException {
         Thread thread = new Thread(new Task());
         thread.start();
-        Thread.sleep(5);
         thread.interrupt(); //对象方法
-        System.out.println("------------------" + thread.interrupted()); //当前线程的中断状态，如果中断，并且清楚终端状态  ---- 当前线程是main线程而不是thread线程
+        Thread.sleep(1000);
+        //当前线程的中断状态，如果中断，并且清楚终端状态  ---- 当前线程是main线程而不是thread线程
+        System.out.println("------------------" + thread.interrupted());
         System.out.println("------------------" +  thread.interrupted());
 
     }
@@ -45,8 +46,13 @@ class Task  implements  Runnable{
 
     @Override
     public void run() {
-        for (int i = 0;i < 500000;i++) {
+        for (int i = 0;i < 100000;i++) {
             System.out.println(i);
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println(e);
         }
     }
 }

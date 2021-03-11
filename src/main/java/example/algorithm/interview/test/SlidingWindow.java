@@ -104,9 +104,14 @@ public class SlidingWindow {
     public void test3() {
         System.out.println(getMinContainSubstring("ADOBECODEBANC", "ABC"));
         System.out.println(getMinContainSubstring("ADOBECODEBANCF", "ABCE"));
-
+        System.out.println("--------------------");
         System.out.println(getMinContainSubstringVersion2("ADOBECODEBANC", "ABC"));
-        System.out.println(getMinContainSubstringVersion2("ADOBECODEBANCF", "ABCE"));
+        //System.out.println(getMinContainSubstringVersion2("ADOBECODEBANCF", "ABCE"));
+
+        System.out.println("--------------------------------------------");
+        System.out.println(getMinStr("ADOBECODEBANC", "ABC"));
+        //System.out.println(getMinStr("ADOBECODEBANCF", "ABCE"));
+
     }
 
     private String getMinContainSubstring(String content, String target) {
@@ -155,7 +160,7 @@ public class SlidingWindow {
             accountBook[target.charAt(i)] += 1;
             account++;
         }
-        for (int i = 0; i < target.length() - 1; i++) { //首先判断content的前target.length个字符的情况；
+        for (int i = 0; i < target.length(); i++) { //首先判断content的前target.length个字符的情况；
             if (accountBook[content.charAt(i)]-- > 0) {
                 account--;
             }
@@ -167,27 +172,68 @@ public class SlidingWindow {
         String result = null;
         int left = 0, right = target.length();
         boolean isRight = true;
-        while (right < content.length()) {
+        while (right < content.length() || !isRight) {
             if (isRight) {
-                if (accountBook[content.charAt(right)]-- > 0) {
+                if (accountBook[content.charAt(right++)]-- > 0) {
                     account--;
                 }
             } else {
-                if (accountBook[content.charAt(left)]++ >= 0) {
+                if (accountBook[content.charAt(left++)]++ >= 0) {
                     account++;
                 }
             }
-            String sub = content.substring(left, right + 1);
+            //System.out.println("getMinContainSubstringVersion2 sub =  " + sub + " account = " + account);
             if (account == 0) {
-                if (result == null) {
-                    result = sub;
-                } else {
-                    result = sub.length() < result.length() ? sub : result;
-                }
-                left++;
+                String sub = content.substring(left, right);
+                result = result == null || result.length() > sub.length() ? sub : result;
                 isRight = false;
             } else {
-                right++;
+                isRight = true;
+            }
+        }
+        return result;
+    }
+
+
+    private String getMinStr(String content, String target) {
+        if (content == null || target == null || target.length() > content.length()) {
+            return "";
+        }
+        int[] accountBook = new int[256]; //账本
+        int account = 0; //总账
+        //初始化
+        for (int i = 0; i < target.length(); i++) {
+            accountBook[target.charAt(i)]++;
+            account++;
+        }
+        for (int i = 0; i < target.length(); i++) { //content的前target.length字符还账的情况
+            if (accountBook[content.charAt(i)]-- > 0) {
+                account--;
+            }
+        }
+        if (account == 0) {
+            return content.substring(0, target.length());
+        }
+        String result = null;
+        boolean isRight = true;
+        int left = 0;
+        int right = target.length();
+        while (right < content.length() || !isRight) {
+            if (isRight) {
+                if (accountBook[content.charAt(right++)]-- > 0) {
+                    account--;
+                }
+            } else {
+                if (accountBook[content.charAt(left++)]++ >= 0) {
+                    account++;
+                }
+            }
+            String sub = content.substring(left, right );
+            //System.out.println("getMinStr sub =  " + sub);
+            if (account == 0) {
+               result = result == null || result.length() > sub.length() ? sub : result;
+                isRight = false;
+            } else {
                 isRight = true;
             }
         }
@@ -204,9 +250,13 @@ public class SlidingWindow {
 
     @Test
     public void test4() {
-        System.out.println(getMaxNoDuplicateCharLength("abcabcbb"));
-        System.out.println(getMaxNoDuplicateCharLengthVersion2("abcabcbb"));
-        System.out.println(getMaxNoDuplicateCharLengthVersion3("abcabcbb"));
+        System.out.println(getMaxNoDuplicateCharLength("abcabcdefghabb"));
+        System.out.println(getMaxNoDuplicateCharLengthVersion2("abcabcdefghabb"));
+        System.out.println(getMaxNoDuplicateCharLengthVersion3("abcabcdefghabb"));
+        System.out.println(getNoDuplicateCharStr("abcabcdefghbb"));
+        System.out.println(getNoDuplicateMaxStr("abcabcdefghbb"));
+
+
 
     }
 
@@ -222,7 +272,7 @@ public class SlidingWindow {
                 //System.out.println("i = " + i + " j " + j);
                 String subStr = content.substring(i, j);
                 if (isAllUnique(subStr)) {
-                    result = subStr.length() > result ? subStr.length() : result;
+                    result = subStr.length() > result ? subStr.length() : result;;
                 }
             }
         }
@@ -313,8 +363,68 @@ public class SlidingWindow {
     }
 
 
+    public String getNoDuplicateCharStr (String content) {
+        if (content == null) {
+            return "";
+        }
+        int[] isHave  = new int[256]; //设置已经遍历的得到的
+        int[] charIndexMapping = new int[256];
+        String result = "";
+        int begin = 0, end = 0;
+        while (end < content.length()) {
+            char c =  content.charAt(end);
+//            if (isHave[c] == 0) { //bigfix分析，isHave[c] != 0时候，就会出现跳过这个字母的问题；
+//                isHave[c]++;
+            if (isHave[c]++ == 0) {
+                String sub = content.substring(begin,end+1);
+                result = result.length() < sub.length() ? sub : result;
+
+            } else {
+                int cIndex = charIndexMapping[c];
+                for (int i = begin;i <= cIndex;i++) { //清除标志 此时也失去跳跃指针的跳跃的作用
+                    isHave[content.charAt(i)]--;
+                }
+                begin = cIndex+1;
+            }
+            charIndexMapping[c] = end;//这是映射关系
+            end++;
+
+        }
+        return result;
+    }
+
+    public String getNoDuplicateMaxStr (String content) {
+        if (content == null) {
+            return "";
+        }
+        int[] charMapping = new int[256];
+        int begin = 0,end = 1;
+        boolean isRight = true;
+        String result = "";
+        charMapping[content.charAt(begin)]++;
+        while (end < content.length() && begin < end) {
+            if (isRight) {
+                if (charMapping[content.charAt(end)] == 0) {
+                    charMapping[content.charAt(end++)]++;
+                    String sub = content.substring(begin,end);
+                    result = result.length() < sub.length() ? sub : result;
+                } else {
+                    isRight = false;
+                }
+            } else {
+                if (content.charAt(begin) == content.charAt(end)) {
+                    isRight = true;
+                }
+                charMapping[content.charAt(begin++)]--;
+            }
+        }
+        return result;
+    }
+
+
     /**
      * 这个是对上边的优化，使用hashMap这个数据结构来实现进行跳转左边的指针
+     *
      * @param s
      * @return
      */
@@ -336,9 +446,8 @@ public class SlidingWindow {
     }
 
 
-
     @Test
-    public void test7 () {
+    public void test7() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, -3);
         long createTime = Long.parseLong(new SimpleDateFormat("yyyyMMddHHmmss").format(c.getTime()));
