@@ -65,6 +65,8 @@ public class GroupChatClient {
     public static void main(String[] args) throws IOException {
         GroupChatClient client = new GroupChatClient();
 
+
+
         new Thread(() -> {
             while(true) {
                 try {
