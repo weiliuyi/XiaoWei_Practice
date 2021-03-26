@@ -33,10 +33,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.3.19.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.openjdk.jol:jol-core:0.9" level="project" />
     <orderEntry type="library" name="Maven: com.belerweb:pinyin4j:2.5.1" level="project" />
-    <orderEntry type="library" name="Maven: org.example:spi_test:1.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.wly.spi:spi_test_perform:1.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.wly.testtest:spi_test_wushu:1.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.wly.spi.test:wushu_test2:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.59.Final" level="project" />
     <orderEntry type="library" name="Maven: org.squirrelframework:squirrel-foundation:0.3.8" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:16.0.1" level="project" />

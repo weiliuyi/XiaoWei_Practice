@@ -86,22 +86,22 @@
       <version>2.5.1</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.example</groupId>
-      <artifactId>spi_test</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.wly.testtest</groupId>
-      <artifactId>spi_test_wushu</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.example</groupId>-->
+<!--      <artifactId>spi_test</artifactId>-->
+<!--      <version>1.0-SNAPSHOT</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>com.wly.testtest</groupId>-->
+<!--      <artifactId>spi_test_wushu</artifactId>-->
+<!--      <version>1.0-SNAPSHOT</version>-->
+<!--    </dependency>-->
 
-    <dependency>
-      <groupId>com.wly.spi.test</groupId>
-      <artifactId>wushu_test2</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.wly.spi.test</groupId>-->
+<!--      <artifactId>wushu_test2</artifactId>-->
+<!--      <version>1.0-SNAPSHOT</version>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>io.netty</groupId>

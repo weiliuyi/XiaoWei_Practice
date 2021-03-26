@@ -3,8 +3,6 @@ package example.algorithm.interview.day;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @description: 动态规划---框架思维,凑零钱
@@ -46,6 +44,12 @@ public class Day0316 {
         Arrays.sort(coinOrder);
         collectCoins(coinOrder, 1, 6, ints);
         System.out.println(Arrays.toString(ints));
+
+        System.out.println(collectCoinsVersion2(6,coinOrder));
+        int[] memo = new int[7];
+        Arrays.fill(memo, 7);
+
+        System.out.println(collectCoinVersion3(7,6,memo,coinOrder));
     }
 
 
@@ -117,6 +121,10 @@ public class Day0316 {
 
     /**
      * 凑零钱的   递归解法
+     * 贪心算法
+     *
+     * 这种递归的思路：面值比较大的的尽可能多的选择，然后在选择面值低的硬币
+     * 如果无法凑成金额，减去一个面值大的，再去选择小面值的硬币
      *
      * @param orderCoins 硬币面值列表,并且面值大小，按照从小到大进行排序
      * @param endIndex   遍历硬币列表的默认指针
@@ -152,6 +160,72 @@ public class Day0316 {
         }
         return false;
     }
+
+    /**
+     * 递归版本二
+     *
+     *
+     * 明确状态 ---- 定义dp数组/函数的含义------明确选择-------明确basecase
+     * 1。明确状态----  硬币的数量是不限制的，那么唯一的状态就是目标金额
+     * 2。dp函数的定义----- 函数dp(n)表示 当前目标金额n，至少需要dp(n)个金额凑出金额
+     * 3。确定选择并且择优  每个硬币不限制数量，所以选择的范围就是  硬币面值的集合
+     * 4。最后明确base case 目标金额小于零时，所需硬币的数量为零，当目标金额小于零时，返回-1
+     *
+     * @param n
+     * */
+    public int collectCoinsVersion2(int n, int[] coins) {
+        if (n == 0) return 0;
+        if (n < 0) return -1;
+        int result = Integer.MAX_VALUE;
+        for (int i = 1; i < coins.length; i++) {
+            int temp = collectCoinsVersion2(n - coins[i], coins);
+            if (temp == -1) {
+                continue;
+            }
+            result = min(result,temp + 1) ;
+        }
+        return result;
+    }
+
+    /**
+     * 使用备忘录的进行优化递归，对递归树进行剪纸，
+     * 子问题的数量---就是递归树节点的个数
+     *
+     * @param
+     * @param target 目标金额
+     * @param memo   备忘录
+     * @param coins  硬币的面值列表
+     * @return 最少需要硬币的数量
+     */
+    public int collectCoinVersion3(int max,int target, int[] memo, int[] coins) {
+        if (target == 0) return 0;
+        if (target < 0) return -1;
+        //进行剪枝
+        //if (memo[target] != max) return memo[target];
+        int result = max;
+        for (int i = 0; i < coins.length; i++) {
+            //必须判断target-coins[i],否则会发生数组角标越界
+            if (target - coins[i] < 0 || memo[target - coins[i]] == -1) {
+                continue;
+            }
+            //使用memo进行剪纸
+            if (memo[target - coins[i]] == max) {
+                memo[target - coins[i]] = collectCoinVersion3(max,target - coins[i], memo, coins);
+            }
+
+            result = min(result, memo[target - coins[i]] + 1);
+        }
+        return result;
+
+    }
+
+
+    private int min (int a ,int b) {
+        return Math.min(a, b);
+    }
+
+
+
 
     public static void main(String[] args) {
         int[] ints = new int[4];
