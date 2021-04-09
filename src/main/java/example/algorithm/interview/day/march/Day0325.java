@@ -1,4 +1,4 @@
-package example.algorithm.interview.day;
+package example.algorithm.interview.day.march;
 
 
 import com.alibaba.fastjson.JSON;
@@ -33,8 +33,8 @@ public class Day0325 {
     }
 
     @Test
-    public void testNextGreaterCirculation () {
-        int[] temp = new int[]{2,1,2,4,3};
+    public void testNextGreaterCirculation() {
+        int[] temp = new int[]{2, 1, 2, 4, 3};
         System.out.println("testNextGreaterCirculation = " + Arrays.toString(nextGreaterEleCirculation(temp)));
     }
 
@@ -43,11 +43,11 @@ public class Day0325 {
      * 前一个比它大的元素
      *
      * @param arr 数组
-     * @return
+     * @return 前一个比它大的数组
      */
     private int[] beforeGreaterEle(int[] arr) {
         int[] result = new int[arr.length];
-        Stack<Integer> stack = new Stack(); //从大到小的栈
+        Stack<Integer> stack = new Stack<>(); //从大到小的栈
         for (int i = 0; i < arr.length; i++) {
             while (!stack.isEmpty()) { //如果栈不为null
                 if (stack.peek() > arr[i]) { //如果栈顶元素大于目标元素，栈顶元素放入到result数组中，并且将目标元素押入栈
@@ -170,13 +170,18 @@ public class Day0325 {
 
     /**
      * 样是 Next Greater Number，现在假设给你的数组是个环形的，如何处理？
+     *
+     * @param arr 数组
      */
     public int[] nextGreaterEleCirculation(int[] arr) {
         Stack<Integer> stack = new Stack<>();
         int[] result = new int[arr.length];
+        //结局循环数组的思路，都是double数组，
         for (int i = arr.length * 2 - 1; i >= 0; i--) {
             int temp = arr[i % arr.length];
-            while (!stack.isEmpty() && stack.peek() <= temp)  stack.pop();
+            while (!stack.isEmpty() && stack.peek() <= temp)
+                stack.pop();
+
             result[i % arr.length] = stack.isEmpty() ? -1 : stack.peek();
             stack.push(temp);
         }
@@ -190,7 +195,7 @@ public class Day0325 {
             list.add(id);
         }
         String content = JSON.toJSONString(list);
-        System.out.printf("result = " + content.length());
+        System.out.println("result = " + content.length());
     }
 
 
