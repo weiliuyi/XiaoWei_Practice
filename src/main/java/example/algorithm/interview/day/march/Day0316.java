@@ -22,7 +22,7 @@ public class Day0316 {
     @Test
     public void testFibo() {
         System.out.println(fiboForce(5));
-        System.out.println(fiboMemo(5,new int[6]));
+        System.out.println(fiboMemo(5, new int[6]));
         System.out.println(fiboDynamic(5));
         System.out.println(fiboDynamicOptimize(5));
     }
@@ -45,11 +45,13 @@ public class Day0316 {
         collectCoins(coinOrder, 1, 6, ints);
         System.out.println(Arrays.toString(ints));
 
-        System.out.println(collectCoinsVersion2(6,coinOrder));
+        System.out.println(collectCoinsVersion2(6, coinOrder));
         int[] memo = new int[7];
         Arrays.fill(memo, 7);
 
-        System.out.println(collectCoinVersion3(7,6,memo,coinOrder));
+        System.out.println(collectCoinVersion3(7, 6, memo, coinOrder));
+
+        System.out.println(coinChange(7, coinOrder));
     }
 
 
@@ -57,11 +59,11 @@ public class Day0316 {
      * 暴力求解
      */
 
-    private int fiboForce (int n) {
+    private int fiboForce(int n) {
         if (n == 1 || n == 2) {
             return 1;
         }
-        return fiboForce(n-1) + fiboForce(n-2);
+        return fiboForce(n - 1) + fiboForce(n - 2);
     }
 
 
@@ -69,7 +71,7 @@ public class Day0316 {
      * 带备忘录的递归解法------- 重叠子问题
      */
 
-    private int fiboMemo (int n,int[] memo) {
+    private int fiboMemo(int n, int[] memo) {
         if (n == 1 || n == 2) {
             return 1;
         }
@@ -122,7 +124,7 @@ public class Day0316 {
     /**
      * 凑零钱的   递归解法
      * 贪心算法
-     *
+     * <p>
      * 这种递归的思路：面值比较大的的尽可能多的选择，然后在选择面值低的硬币
      * 如果无法凑成金额，减去一个面值大的，再去选择小面值的硬币
      *
@@ -163,8 +165,8 @@ public class Day0316 {
 
     /**
      * 递归版本二
-     *
-     *
+     * <p>
+     * <p>
      * 明确状态 ---- 定义dp数组/函数的含义------明确选择-------明确basecase
      * 1。明确状态----  硬币的数量是不限制的，那么唯一的状态就是目标金额
      * 2。dp函数的定义----- 函数dp(n)表示 当前目标金额n，至少需要dp(n)个金额凑出金额
@@ -172,7 +174,7 @@ public class Day0316 {
      * 4。最后明确base case 目标金额小于零时，所需硬币的数量为零，当目标金额小于零时，返回-1
      *
      * @param n
-     * */
+     */
     public int collectCoinsVersion2(int n, int[] coins) {
         if (n == 0) return 0;
         if (n < 0) return -1;
@@ -182,7 +184,7 @@ public class Day0316 {
             if (temp == -1) {
                 continue;
             }
-            result = min(result,temp + 1) ;
+            result = min(result, temp + 1);
         }
         return result;
     }
@@ -197,7 +199,7 @@ public class Day0316 {
      * @param coins  硬币的面值列表
      * @return 最少需要硬币的数量
      */
-    public int collectCoinVersion3(int max,int target, int[] memo, int[] coins) {
+    public int collectCoinVersion3(int max, int target, int[] memo, int[] coins) {
         if (target == 0) return 0;
         if (target < 0) return -1;
         //进行剪枝
@@ -210,7 +212,7 @@ public class Day0316 {
             }
             //使用memo进行剪纸
             if (memo[target - coins[i]] == max) {
-                memo[target - coins[i]] = collectCoinVersion3(max,target - coins[i], memo, coins);
+                memo[target - coins[i]] = collectCoinVersion3(max, target - coins[i], memo, coins);
             }
 
             result = min(result, memo[target - coins[i]] + 1);
@@ -219,12 +221,33 @@ public class Day0316 {
 
     }
 
+    /**
+     * 使用dp数组进行 求解换零钱问题
+     *
+     * @param target 目标金额
+     * @param coins  硬币列表
+     */
+    private int coinChange(int target, int[] coins) {
+        //dp[n] = count 目标金额为n时，最少需要count个硬币
+        int invalid = target + 1;
+        int[] dpTable = new int[target + 1];
+        dpTable[0] = 0;
 
-    private int min (int a ,int b) {
-        return Math.min(a, b);
+        for (int i = 1; i <= target; i++) {
+            int count = invalid;
+            for (int coin : coins) {
+                if (i - coin < 0) continue;
+                count = Math.min(count, dpTable[i - coin] + 1);
+            }
+            dpTable[i] = count;
+        }
+        return dpTable[target] == invalid ? -1 : dpTable[target];
     }
 
 
+    private int min(int a, int b) {
+        return Math.min(a, b);
+    }
 
 
     public static void main(String[] args) {

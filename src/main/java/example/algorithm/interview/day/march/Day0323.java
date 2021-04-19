@@ -15,10 +15,13 @@ public class Day0323 {
     @Test
     public void testMaxIncreLength() {
         int[] target = new int[]{10, 9, 2, 5, 3, 7, 101, 18};
-        System.out.println("getMaxIncreLengthByDynamic = " + getMaxIncreLengthByDynamic(target));
+        System.out.println("getMaxIncreLengthByDynamic = " + getMaxIncrementLengthByDynamic(target));
 
         int[] target2 = new int[]{6, 3, 5, 10, 11, 2, 9, 14, 13, 7, 4, 8, 12};
-        System.out.println("target  = " + getMaxIncreLengthByDynamic(target2));
+        System.out.println("target  = " + getMaxIncrementLengthByDynamic(target2));
+        System.out.println("getMaxIncrementLengthDynamicV2  = " + getMaxIncrementLengthDynamicV2(target2));
+        System.out.println("getMaxIncrementLengthBinarySearch  = " + getMaxIncrementLengthBinarySearch(target2));
+        System.out.println("getMaxIncrementLengthBinarySearchV2  = " + getMaxIncrementLengthBinarySearchV2(target2));
     }
 
 
@@ -61,21 +64,22 @@ public class Day0323 {
      */
 
     @Test
-    public void testBoatCarry () {
-        int [] parcels = new int[]{1,2,3,4,5,6,7,8,9,10};
-        System.out.println(minBoatCarryForce(parcels,5));
-        System.out.println(minBoatBinarySearch(parcels,5));
+    public void testBoatCarry() {
+        int[] parcels = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(minBoatCarryForce(parcels, 5));
+        System.out.println(minBoatBinarySearch(parcels, 5));
 
     }
+
 
     /**
      * 最长子序列的递归算法的解析：
      * 1.状态 数组的下标
-     * 2.dp[i]以target[i]为结尾的最长递增序列；
+     * 2.dp[i]以target[i]为结尾的最长递增序列长度；
      * 3.baseCase,dp数组的下标都为1（最短为1）
      */
 
-    private int getMaxIncreLengthByDynamic(int[] target) {
+    private int getMaxIncrementLengthByDynamic(int[] target) {
         if (target.length == 1) return 1;
         int[] dp = new int[target.length];
         Arrays.fill(dp, 1);
@@ -118,6 +122,89 @@ public class Day0323 {
          */
 
     }
+
+
+    private int getMaxIncrementLengthDynamicV2(int[] arr) {
+        int result = 1;
+        int[] dpTable = new int[arr.length];
+        Arrays.fill(dpTable, 1);
+        for (int i = 1; i < arr.length; i++) {
+            int temp = 1;
+            for (int j = 0; j <= i - 1; j++) {
+                if (arr[i] <= arr[j]) continue;
+
+                temp = Math.max(temp, dpTable[j] + 1);
+            }
+            dpTable[i] = temp;
+            result = Math.max(result, temp);
+        }
+        return result;
+    }
+
+    /**
+     * https://mp.weixin.qq.com/s/02o_OPgePjaz3dXnw9TA1w
+     * 最长递归子序列二分查找算法求解  ---patience order
+     * <p>
+     * 放牌规则：
+     * 1。只能把点数小的牌压到比它大的牌上，
+     * 2。如果当前点数较大，没有可以放置的点数，则新建一个堆，把这张牌放下去
+     * 3。如果当前牌有多个堆可供选择，则选择最右侧的堆放置；
+     *
+     * @param arr 目标数组
+     * @return count
+     */
+    private int getMaxIncrementLengthBinarySearch(int[] arr) {
+        int[] piles = new int[arr.length];
+        Arrays.fill(piles, 0);
+        for (int i = 0; i < arr.length; i++) {
+            //在pile中找到左侧第一个小于arr[i]的下标；
+            int left = 0;
+            int right = arr.length;
+            while (left < right) {
+                int mid = (left + right) / 2;
+                if (piles[mid] == 0 || piles[mid] >= arr[i]) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            piles[left] = arr[i];
+        }
+        System.out.println("getMaxIncrementLengthBinarySearch" + Arrays.toString(piles));
+        return Arrays.stream(piles).map(num -> num != 0 ? 1 : 0).sum();
+    }
+
+
+    /**
+     * 思路同上：只是编码方式稍许不同
+     */
+    private int getMaxIncrementLengthBinarySearchV2(int[] arr) {
+        int[] top = new int[arr.length];
+        int pileCount = 0;//当前已将创建的堆数
+
+        for (int i = 0; i < arr.length; i++) {
+            int poker = arr[i];
+            int left = 0, right = pileCount;
+            while (left < right) {
+                int mid = (left + right) / 2;
+                if (top[mid] >= poker) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            if (left == pileCount) pileCount++;
+            top[left] = poker;
+        }
+        return pileCount;
+    }
+
+
+    /*
+     * 最长递增子序列，是无法进行暴力求解的，
+     */
+//    private int getMaxIncrementLengthForce (int[] arr) {
+//    }
 
 
     /**
@@ -335,12 +422,12 @@ public class Day0323 {
         return -1;
     }
 
-    private int minBoatBinarySearch(int[] parcels,int day) {
+    private int minBoatBinarySearch(int[] parcels, int day) {
         int rMax = Arrays.stream(parcels).sum() + 1;
         int lMin = Arrays.stream(parcels).max().getAsInt();
         while (lMin < rMax) {
             int mid = (lMin + rMax) / 2;
-            if (canBoatFinish(parcels,day,mid)) {
+            if (canBoatFinish(parcels, day, mid)) {
                 rMax = mid;
             } else { //不能完成，说明运载能力太小，需要增大 targetCarry > mid
                 lMin = mid + 1;
@@ -364,7 +451,7 @@ public class Day0323 {
                 carryCount += parcels[i];
             }
         }
-        if (carryCount > 0)  dayCount++; //这个要注意；
+        if (carryCount > 0) dayCount++; //这个要注意；
         return dayCount <= day;
     }
 }
