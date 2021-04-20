@@ -75,7 +75,26 @@ public class Day0419 {
      *
      */
     @Test
-    public void test2 () {
-
+    public void testExpungeOne () {
+        System.out.println(3 & 2);
     }
+
+    /**
+     *
+     * 将n最右侧的1 提取出来
+     * (~n + 1) & n
+     * 100111000 n
+     * 011000111 ~n
+     * 011001000 + 1  （~n + 1）
+     *
+     * 000001000    (~n + 1) & n
+     *
+     */
+
+
+    @Test
+    public void testExtractRightOne () {
+        System.out.println(3 & (~3 + 1));
+    }
+
 }

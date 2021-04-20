@@ -80,10 +80,10 @@ public class BitOrElse {
     @Test
     public void test3 () {
         int [] array = new int[] {1,1,3,3,3,3,44,44,88,88,88,5,5,5,5,5};
-        printDoublOddNumber(array);
+        printDoubleOddNumber(array);
     }
 
-    private void printDoublOddNumber (int[] array) {
+    private void printDoubleOddNumber(int[] array) {
         int result = 0;
         for (int num :array) { //数组中每一个数相抑或，结果就是可以得到这两个奇数的抑或 A ^ B
             result ^= num;
