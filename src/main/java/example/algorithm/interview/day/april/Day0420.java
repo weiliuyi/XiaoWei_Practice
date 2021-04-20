@@ -93,11 +93,13 @@ public class Day0420 {
     private <T> LNode<T> detectCycle(LNode<T> head) {
         LNode<T> fast, slow;
         fast = slow = head.next;
-        while (fast != null & fast.next != null) {
+        while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
             if (fast == slow) break;
         }
+        if (fast == null) return null;
+
         slow = head.next;
         while (slow != fast) {
             slow = slow.next;
@@ -111,7 +113,7 @@ public class Day0420 {
      * 当链表的长度是奇数时，slow恰巧停在中间位置，
      * 如果链表长度是偶数时，slow恰巧停在中间偏右；
      */
-    private <T> LNode midNode(LNode<T> head) {
+    private <T> LNode<T> midNode(LNode<T> head) {
         LNode<T> fast, slow;
         fast = slow = head.next;
         while (fast != null && fast.next != null) {
