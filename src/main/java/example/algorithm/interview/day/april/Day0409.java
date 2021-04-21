@@ -51,7 +51,8 @@ public class Day0409 {
      */
     private int getPatternIndexForce(String content, String pattern) {
         if (pattern.length() > content.length()) return -1;
-        for (int i = 0; i <= content.length() - pattern.length(); i++) {
+
+        for (int i = 0; i <= content.length() - pattern.length(); i++) {//其实 len=content.length()- pattern.length() + 1 个字符 下标[0,len-1]
             int j = 0;
             for (; j < pattern.length(); j++) {
                 if (pattern.charAt(j) != content.charAt(j + i))
@@ -81,7 +82,7 @@ public class Day0409 {
                 j++;
                 //如果此时的串的长度已经结束
                 if (j == pattern.length()) {
-                    return i - j;
+                    return i - j; // i - (j + 1) + 1
                 }
                 continue;
             }
@@ -215,12 +216,12 @@ public class Day0409 {
             return -1;
         if (index == 0)
             return 0;
-        int k = nextArrayRecursive(pattern, index - 1);
-        while (k >= 0) {
-            if (pattern.charAt(k) == pattern.charAt(index)) {
-                return k + 1;
+        int len = nextArrayRecursive(pattern, index - 1);
+        while (len >= 0) {
+            if (pattern.charAt(len) == pattern.charAt(index)) {
+                return len + 1;
             }
-            k = nextArrayRecursive(pattern, k - 1);
+            len = nextArrayRecursive(pattern, len - 1);
         }
         return 0;
     }
@@ -229,7 +230,6 @@ public class Day0409 {
     private int nextArrayRecursive(String pattern, int[] nextMemo, int index) {
         if (index < 0) return -1;
         if (index == 0) {
-            nextMemo[0] = 0;
             return nextMemo[0];
         }
         if (nextMemo[index] != -1)
