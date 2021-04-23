@@ -92,12 +92,12 @@ public class Day0415 {
         }
         for (int i = 1; i <= s1.length(); i++) {
             for (int j = 1; j <= s2.length(); j++) {
-                if (s1.charAt(i-1) == s2.charAt(j-1)){
-                    dpTable[i][j] = dpTable[i-1][j-1];
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dpTable[i][j] = dpTable[i - 1][j - 1];
                     continue;
                 }
                 dpTable[i][j] = Math.min(
-                        dpTable[i - 1][j - 1] ,//替换
+                        dpTable[i - 1][j - 1],//替换
                         Math.min(dpTable[i - 1][j], //删除
                                 dpTable[i][j - 1]) //插入
                 ) + 1;
