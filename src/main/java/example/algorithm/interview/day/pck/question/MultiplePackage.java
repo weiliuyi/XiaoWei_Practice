@@ -98,8 +98,8 @@ public class MultiplePackage {
         int k = 1;
         int num = n[i - 1];
         while (k < num) {
-            // 0-1背包问题
 /*
+                0-1背包问题
                 for (int j = volume; j >= k * c[i - 1]; j--) {
                     dpTable[j] = Math.max(dpTable[j], dpTable[j - k * c[i - 1]] + k * w[i - 1]);
                 }
