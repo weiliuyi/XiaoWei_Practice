@@ -8,7 +8,7 @@ import org.junit.Test;
  * @Author weiliuyi
  * @Date 2021/4/23 8:08 下午
  **/
-public class BaseQuestion {
+public class ZeroOnePack {
 
     /**
      * 题目：有N件物品，一个容量为V的背包，第i件物品的费用c[i],价值是w[i],求解讲哪些物品放入背包，可以使得总的价值最大；
