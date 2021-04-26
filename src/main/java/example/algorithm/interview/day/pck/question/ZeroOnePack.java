@@ -35,8 +35,10 @@ public class ZeroOnePack {
         int[] val = {4, 2, 3};
         System.out.println(baseZeroOnePck(4, val, wt));
         System.out.println(baseZeroOnePckV2(4, val, wt));
-        System.out.println(baseZeroOnePckSpace(4, val, wt));
+        System.out.println("01 package space = " + baseZeroOnePckSpace(4, val, wt));
 
+        System.out.println("depth search =" + zeroOnePackDepthSearch(4,val,wt));
+        System.out.println("depth search optimize =" + zeroOnePackDepthSearchOptimize(4,val,wt));
 
     }
 
@@ -117,5 +119,118 @@ public class ZeroOnePack {
         return dpTable[volume];
     }
 
+
+    /**
+     *  换个角度解决01背包问题 -------使用搜索算法
+     */
+
+    private int zeroOnePackDepthSearch (int volume,int[] w,int[] c) {
+        ZeroOnePacDepthSearch depthSearch = new ZeroOnePacDepthSearch(volume, w, c);
+        return depthSearch.getMaxValue();
+    }
+
+
+    /**
+     *  使用剪枝进行优化：
+     */
+    private int zeroOnePackDepthSearchOptimize (int volume,int[] w,int[] c) {
+        ZeroOnePacDepthSearch depthSearch = new ZeroOnePacDepthSearch(volume, w, c);
+        return depthSearch.getMaxValueOptimize();
+    }
+
+    private static class ZeroOnePacDepthSearch {
+        //书包容量
+        private int volume;
+        //物品的重量列表
+        private int[] w;
+        //物品的费用列表
+        private int[] c;
+        //物品的数量
+        private int num;
+
+
+        public ZeroOnePacDepthSearch(int volume, int[] w, int[] c) {
+            this.volume = volume;
+            this.w = w;
+            this.c = c;
+            this.num = c.length;
+        }
+
+
+        private int getMaxValue () {
+            return depthSearch(1,volume);
+        }
+
+        private int getMaxValueOptimize () {
+            return Math.max(depthSearchOptimize(1,w[0],c[0]) ,depthSearchOptimize(1,0,0));
+        }
+
+
+        /**
+         * 这是使用递归的算法进行0-1背包问题；
+         *
+         * 针对第i个物品，总会有两种选择，选择 or 不选
+         * @param i  表示第i个物品
+         *
+         */
+
+        private int depthSearch (int i,int leftVolume) {
+            if (i > num)  return 0;
+
+            if (leftVolume - c[i-1] < 0 ) { //剩下的书包的容量小于物品的体积
+                return depthSearch(i+1,leftVolume);
+            }
+
+           return  Math.max(depthSearch(i+1,leftVolume-c[i-1]) + w[i-1]//选择第i个物品
+                    ,depthSearch(i+1,leftVolume));//不选择第i个物品
+        }
+
+
+        private int depthSearchV2 (int i,int leftVolume) {
+            if (i == 0) return 0;
+
+            if (leftVolume < c[i-1]) return depthSearchV2(i-1,leftVolume);
+
+            return Math.max(depthSearchV2(i-1,leftVolume-c[i-1]) + w[i-1] ,
+                    depthSearchV2(i-1,leftVolume) );
+        }
+
+
+        /**
+         * 使用了剪枝，提高算法的运行速度
+         * 基本的剪枝方法：
+         * 可行性剪枝：即判断按照当前搜索路径下去能否找到一个可行解；
+         * 最优化剪枝：即判断按照当前搜索路径下能否找到一个最优解
+         *
+         * TODO 结果错误
+         */
+        private int depthSearchOptimize (int i,int sumW,int sumC ) {
+            if (i > num  || sumC == volume) return sumW;
+
+            int maxValue = depthSearchOptimize(i + 1, sumW, sumC); //不选择第i个
+            if (sumC + c[i-1] > volume) {
+                return maxValue;
+            }
+            int maxValue2 = depthSearchOptimize(i+1,sumW + w[i-1],sumC + c[i-1]);
+            return Math.max(maxValue,maxValue2);
+//            if (sumC + c[i-1] <= volume) {
+//                int  maxValue2 = 0;
+//                if (sumW + w[i-1] > maxValue) {
+//
+//                    maxValue2 = depthSearchOptimize(i+1,sumW + w[i-1],sumC + c[i-1]);
+//                    return Math.max(maxValue,maxValue2);
+//                }
+//            }
+//            return maxValue;
+        }
+    }
+
+
+    public static void main(String[] args) {
+        int[] wt = {2, 1, 3};
+        int[] val = {4, 2, 3};
+        ZeroOnePacDepthSearch depthSearch = new ZeroOnePacDepthSearch(4, val, wt);
+        System.out.println(depthSearch.depthSearchV2(3,4));
+    }
 
 }
