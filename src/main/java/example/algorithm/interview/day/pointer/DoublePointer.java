@@ -80,12 +80,15 @@ public class DoublePointer {
     public void longestSubstringLength () {
         String s1 = "abcabcbb";
         System.out.println(lengthOfLongestSubstring(s1));
+        System.out.println(lengthOfLongestSubstringV2(s1));
 
         String s2 = "bbbbb";
         System.out.println(lengthOfLongestSubstring(s2));
+        System.out.println(lengthOfLongestSubstringV2(s2));
 
         String s3 = "pwwkew";
         System.out.println(lengthOfLongestSubstring(s3));
+        System.out.println(lengthOfLongestSubstringV2(s3));
     }
 
 
@@ -369,7 +372,7 @@ public class DoublePointer {
      * 另外一种思路
      */
     int lengthOfLongestSubstringV2(String s) {
-        int[] sMap = new int[s.length()];
+        int[] sMap = new int[256];
 
         int left = 0,right = 0;
         int result = 0;
