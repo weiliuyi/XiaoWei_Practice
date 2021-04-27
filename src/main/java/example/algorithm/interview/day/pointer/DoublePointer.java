@@ -4,6 +4,8 @@ import example.algorithm.interview.day.april.Day0420;
 import example.algorithm.interview.test.SlidingWindow;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * @ClassName DoublePointer 双指针
  * @Description https://mp.weixin.qq.com/s/ioKXTMZufDECBUwRRp3zaA 滑动窗口
@@ -34,6 +36,12 @@ public class DoublePointer {
      */
 
 
+    /**
+     * 此写法都有一个bug，那就是pat(模式串)都不能包含重复的字符串
+     * 这是应为我们通用的判定条件都是：pat.length == valid;
+     *
+     * 正确的判断逻辑是：模式串中不同字符的数量(不应该是pat的长度) == valid
+     */
     @Test
     public void testSlidingWindow() {
         String source = "ADOBECODEBANC";
@@ -42,6 +50,42 @@ public class DoublePointer {
         System.out.println(slidingWindowFormat(source, target));
 
         System.out.println(slidingWindowV2(source, target));
+    }
+
+
+    @Test
+    public void testCheckInclusion() {
+        String s1 = "ab";
+        String s2 = "eidbaooo";
+        System.out.println(checkInclusion(s1, s2));
+
+        String s11 = "ab";
+        String s22 = "eidboaoo";
+        System.out.println(checkInclusion(s11, s22));
+
+        System.out.println(checkInclusionV2(s1, s2));
+        System.out.println(checkInclusionV2(s11, s22));
+    }
+
+
+    @Test
+    public void testFindAnagram() {
+        String s = "cbaebabacd";
+        String p = "abc";
+        System.out.println(Arrays.toString(findAnagrams(s,p)));
+    }
+
+
+    @Test
+    public void longestSubstringLength () {
+        String s1 = "abcabcbb";
+        System.out.println(lengthOfLongestSubstring(s1));
+
+        String s2 = "bbbbb";
+        System.out.println(lengthOfLongestSubstring(s2));
+
+        String s3 = "pwwkew";
+        System.out.println(lengthOfLongestSubstring(s3));
     }
 
 
@@ -145,7 +189,7 @@ public class DoublePointer {
         int left = 0, right = 0, valid = 0;
         String result = null;
 
-        while (right < source.length()) {
+        while (right <= source.length()) {
             int rc = source.charAt(right++);
             if (targetMap[rc] != 0) {
                 if (targetMap[rc] == ++sourceMap[rc]) valid++;
@@ -177,6 +221,173 @@ public class DoublePointer {
 //            }
 //        }
 //    }
+
+
+    /**
+     * 判断两个字符串s1和s2，写一个函数判断s2是否包好s1的排列
+     * 换句话说：第一个字符串的排列之一是否是第二个字符串的字串；
+     */
+    private boolean checkInclusion(String s1, String s2) {
+        int[] s1Map = new int[256];
+        int count = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            s1Map[s1.charAt(i)]++;
+            count++;
+        }
+
+        int left = 0, right = 0;
+        while (right < s2.length()) {
+            if (count == 0) return true;
+
+//            char rc = s2.charAt(right++); //此时一定要注意right的值，已经变化，
+//            if (right <= s1.length()) {   再次使用right 容易产生bug
+            char rc = s2.charAt(right);
+            if (right++ < s1.length()) {
+                if (s1Map[rc]-- > 0) count--;
+                continue;
+            }
+
+            char lc = s2.charAt(left++);
+
+            if (s1Map[rc]-- > 0) count--;
+            if (s1Map[lc]++ >= 0) count++;
+        }
+
+        return false;
+
+    }
+
+    /**
+     * 思路更加巧妙，而且更加容易理解
+     * <p>
+     * 1。本题移动left缩小窗口的时机是窗口大小大于或者等于s1.length()时，因为是排列，显然长度应该是一样的
+     * 2。当发现valid == s1.length()时，就说明窗口中就是一个合法排列
+     */
+    private boolean checkInclusionV2(String s1, String s2) {
+        int[] s1Map = new int[256], s2Map = new int[256];
+        for (int i = 0; i < s1.length(); i++) {
+            s1Map[s1.charAt(i)]++;
+        }
+        int left = 0, right = 0, valid = 0;
+
+        while (right < s2.length()) {
+            int rc = s2.charAt(right++);
+            if (s1Map[rc] > 0) {
+                if (++s2Map[rc] == s1Map[rc]) {
+                    valid++;
+                }
+            }
+
+            while (right - left >= s1.length()) {
+                if (valid == s1.length()) return true;
+
+                int lc = s2.charAt(left++);
+                if (s1Map[lc] > 0) {
+                    if (s1Map[lc] == s2Map[lc]--) valid--;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 给定一个字符串s和一个非空字符串p，找到s中所有是p的字母异位词的字串，返回这些字串的起始索引。
+     * 字母异位词指字母相同，但是排列不同的字符串
+     */
+    private int[] findAnagrams (String s,String p) {
+        int[] sMap = new int[256],pMap = new int[256];
+        for (int i = 0; i < p.length(); i++) {
+            pMap[p.charAt(i)]++;
+        }
+        int[] result = new int[s.length()-p.length()+1];
+        Arrays.fill(result,-1);
+        int left = 0,right = 0,valid = 0,rIndex = 0;
+
+        while (right < s.length()) {
+
+            int rc = s.charAt(right++);
+
+            if (pMap[rc] > 0) {
+                if (++sMap[rc] == pMap[rc] ) {
+                    valid++;
+                }
+            }
+            while (right - left >= p.length()) {
+
+                if (valid == p.length()) {
+                    result[rIndex++] = left;
+                }
+
+                int lc = s.charAt(left++);
+                if (pMap[lc] > 0) {
+                    if (pMap[lc] == sMap[lc]--) {
+                        valid--;
+                    }
+                }
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 最长无重复字串
+     *
+     * 给定一个字符串，请你找出不包含重复字符的最长字串的长度
+     */
+
+    int lengthOfLongestSubstring (String s) {
+        int [] sMap = new int[256];
+
+        int left=0,right=0,result = 0;
+
+        while (right < s.length()) {
+
+            int rc = s.charAt(right);
+            if (sMap[rc] == 0) { //判断此时right指针是否重复，此时发生无重复
+                right++;
+                sMap[rc]++;
+                continue;
+            }
+
+            while (sMap[rc] != 0) { // 右侧指针不能在扩展，会产生重复，搜索指针；
+                result = Math.max(result,right-left);
+
+                int lc = s.charAt(left++);
+                sMap[lc]--;
+            }
+
+        }
+        return result;
+    }
+
+
+    /**
+     * 另外一种思路
+     */
+    int lengthOfLongestSubstringV2(String s) {
+        int[] sMap = new int[s.length()];
+
+        int left = 0,right = 0;
+        int result = 0;
+
+        while (right < s.length()) {
+            int rc = s.charAt(right++);
+            sMap[rc]++; //窗口内数据进行更新
+
+            while (sMap[rc] > 1) { //左侧窗口是否需要收缩
+                int lc = s.charAt(left++);
+                sMap[lc]--;  //窗口内数据进行更新
+            }
+
+            //这里更新结果
+            result = Math.max(result,right-left);
+        }
+        return result;
+    }
 
 
 }
