@@ -55,6 +55,8 @@ public class Day0508 {
             }
             if (flag == temp ) {
                 System.out.println("");
+
+                //TODO 这个地方太蠢了，本质就是队列的最后一个元素
                 if ((left != null || right != null)) {
                     flag = (right != null) ?  right : left;
                 } else {
