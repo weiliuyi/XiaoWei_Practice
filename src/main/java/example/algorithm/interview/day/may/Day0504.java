@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @ClassName Day0504 二叉树的序列化
@@ -36,6 +37,7 @@ public class Day0504 {
      * 前序遍历：2,1,#,6,#,#,3,#,#
      * 中序遍历：#,1,#,6,#,2,#,3,#
      * 后序遍历：#,#,#,6,1,#,#,3,2
+     * 层级遍历：2,1,3,#,6,#,#,#,#
      *
      *
      * 反序列化的核心：：：： 找到根节点
@@ -68,6 +70,87 @@ public class Day0504 {
         TNode rootAf = codecAfter.deserialize(afterSerial);
         printTree(rootAf);
 
+
+        System.out.println("---------------------");
+        CodecLayer codecLayer = new CodecLayer();
+        String layerSerial = codecLayer.serialize(root);
+        System.out.println(layerSerial);
+        TNode layerTree = codecLayer.deserialize(layerSerial);
+        printTree(layerTree);
+
+        System.out.println(codecLayer.serialize(layerTree));
+    }
+
+
+    /**
+     * 层级进行序列化
+     */
+    private class CodecLayer {
+
+
+        public String serialize (TNode root) {
+            Queue<TNode> deque = new LinkedList<>();
+            deque.add(root);
+            StringBuilder res = new StringBuilder();
+
+            while (!deque.isEmpty()) {
+                TNode node = deque.poll();
+
+                if (node == null) {
+                    res.append("#,");
+                    continue;
+                }
+                res.append(node.data).append(",");
+                deque.add(node.left);
+                deque.add(node.right);
+
+            }
+
+            return res.substring(0,res.length()-1);
+        }
+
+
+        public TNode deserialize (String data) {
+            String[] arr = data.split(",");
+
+            TNode root = new TNode(Integer.parseInt(arr[0]));
+            Queue<TNode> queue = new LinkedList<>();
+            queue.add(root);
+
+            for (int i = 1; i < arr.length; i = i+2) {
+                TNode node = queue.poll();
+                if (!"#".equals(arr[i])) {
+                    node.left = new TNode(Integer.parseInt(arr[i]));
+                    queue.add(node.left);
+                }
+
+                if (i+1 < arr.length && !"#".equals(arr[i+1])) {
+                    node.right = new TNode(Integer.parseInt(arr[i+1]));
+                    queue.add(node.right);
+                }
+            }
+
+            /*
+             *  这样写是有bug的？arr[i++] 可能角标越界；
+             * for (int i = 1;i < arr.length) {
+             *      TNode node = queue.poll();
+             *      String left = arr[i++];
+             *      if (!"#".equals(left)) {
+             *          node.left = new TNode (Integer.parseInt(left));
+             *          queue.add(left);
+             *      }
+             *
+             *      String right = arr[i++];
+             *      if (!"#".equals(right)) {
+             *          node.right = new TNode (Integer.parseInt(right));
+             *          queue.add(right);
+             *      }
+             *
+             * }
+             *
+             */
+            return root;
+        }
     }
 
 
