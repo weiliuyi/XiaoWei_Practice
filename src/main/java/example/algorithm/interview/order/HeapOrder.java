@@ -45,7 +45,7 @@ public class HeapOrder {
     private static void initHeap(int[] array) {   //将一个数组初始化为一个堆
         for (int i = (array.length - 2) / 2; i >= 0; i--) {
             //heapify(array, i,array.length - 1);
-            bigHeapify(array,i,array.length-1);
+            bigHeapfy(array,i,array.length-1);
         }
     }
 
@@ -72,7 +72,7 @@ public class HeapOrder {
         while (end > 0) {
             swap(array,0,end);
             end--;
-            bigHeapify(array,0,end);
+            bigHeapfy(array,0,end);
         }
     }
 
@@ -81,7 +81,7 @@ public class HeapOrder {
      * 初始化大根堆
      */
 
-    private static void bigHeapify (int[] array ,int index,int endIndex) {
+    private static void bigHeapfy(int[] array , int index, int endIndex) {
         if (2 * index + 1 > endIndex) {
             return;
         }
@@ -98,7 +98,7 @@ public class HeapOrder {
         }
         if (target != index) {
             swap(array,target,index);
-            bigHeapify(array,target,endIndex);
+            bigHeapfy(array,target,endIndex);
         }
 
     }
