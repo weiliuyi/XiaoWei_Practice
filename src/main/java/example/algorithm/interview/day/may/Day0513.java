@@ -14,10 +14,10 @@ public class Day0513 {
 
 
     /**
-     *     4
-     *  2    7
-     *1  3  6  9
-     *
+     * 4
+     * 2    7
+     * 1  3  6  9
+     * <p>
      * 前序遍历：4，2，1，3，7，6，9
      * 中序遍历：1，2，3，4，6，7，9
      * 后序遍历：1，3，2，6，9，7，4
@@ -25,7 +25,7 @@ public class Day0513 {
 
 
     @Test
-    public void testTreeOrder () {
+    public void testTreeOrder() {
         TNode root = new TNode(4);
 
         TNode left1 = new TNode(2);
@@ -52,6 +52,7 @@ public class Day0513 {
         rec.preOrder(root);
         System.out.println("");
         noRec.preOrder(root);
+        noRec.preOrderV2(root);
 
         System.out.println("-------------");
 
@@ -64,7 +65,6 @@ public class Day0513 {
         rec.afterOrder(root);
         System.out.println("");
         noRec.afterOrder(root);
-
 
 
     }
@@ -81,6 +81,12 @@ public class Day0513 {
         /**
          * 前序遍历
          * 1。对于每个结点先访问，然后在压站
+         * <p>
+         * 程序步骤：
+         * 1。申请一个stack,并且将root赋值给cur;
+         * 2. 将cur压入stack栈中，对以cur结点为根的整个树来说，依次将树的左边界压入到栈中，即不停的将 cur = cur.left; 重复步骤二
+         * 3。重复步骤二，直到发现cur== null,此时从栈中弹出一个元素，记为node,打印node的值，并且将cur = node.right,然后重复步骤二
+         * 4。直到程序结束；
          */
         private void preOrder(TNode root) {
 
@@ -99,6 +105,34 @@ public class Day0513 {
                 node = node.left;
             }
             System.out.println("");
+        }
+
+        /**
+         * 第二种前序遍历
+         * <p>
+         * 1。申请一个新栈，并记为stack,将根结点压入stack;
+         * 2.从stack弹出一个结点，并且记为cur,访问此结点；
+         * 如果cur.right不为null，压入stack
+         * 如果cur.left不为null，压入stack；
+         * 3。重复步骤2，直到栈为空；
+         * <p>
+         * 为什么要先压入右结点？
+         * 这是因为左结点要提前弹出；
+         */
+        private void preOrderV2(TNode root) {
+            Stack<TNode> stack = new Stack<>();
+            stack.push(root);
+
+            while (!stack.isEmpty()) {
+                TNode cur = stack.pop();
+                System.out.print(" " + cur.data);
+
+                if (cur.right != null) stack.push(cur.right);
+
+                if (cur.left != null) stack.push(cur.left);
+            }
+            System.out.println("");
+
         }
 
         /**
@@ -136,7 +170,7 @@ public class Day0513 {
          * 后续遍历
          */
         public void afterOrder(TNode root) {
-            TNode node = root,lastNode = null;
+            TNode node = root, lastNode = null;
             Stack<TNode> stack = new Stack<>();
 
             while (node != null || !stack.isEmpty()) {
