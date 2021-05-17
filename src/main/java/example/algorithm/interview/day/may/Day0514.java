@@ -81,13 +81,13 @@ public class Day0514 {
         rlll5.right = rlllr6;
 
 
-        AbstractEdgeTree abTreeV1 = new PrintEdgeTreeV1();
+        AbstractEdgeTree<List<Entry>> abTreeV1 = new PrintEdgeTreeV1();
         List<Integer> res = abTreeV1.getTreeEdgeRes(root);
         System.out.println(JSON.toJSONString(res));
 
         System.out.println("---------------------");
 
-        AbstractEdgeTree abTreeV2 = new PrintEdgeTreeV12();
+        AbstractEdgeTree<TNode[][]> abTreeV2 = new PrintEdgeTreeV12();
         List<Integer> res2 = abTreeV2.getTreeEdgeRes(root);
         System.out.println(JSON.toJSONString(res2));
         //System.out.println(getHeight(root, 0));
