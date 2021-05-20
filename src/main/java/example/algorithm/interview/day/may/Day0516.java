@@ -64,7 +64,7 @@ public class Day0516 {
         public String serialize(TNode root) {
             Deque<TNode> deque = new LinkedList<>();
             deque.add(root);
-            StringBuilder res = new StringBuilder("");
+            StringBuilder res = new StringBuilder();
             while (!deque.isEmpty()) {
                 TNode node = deque.poll();
                 if (node == null) {
@@ -101,7 +101,6 @@ public class Day0516 {
                     node.right = new TNode(Integer.parseInt(nodeStr[i + 1]));
                     queue.add(node.right);
                 }
-
             }
             return root;
         }
@@ -167,8 +166,8 @@ public class Day0516 {
 
         @Override
         public String serialize(TNode root) {
-            //StringBuilder res = new StringBuilder();
-            //preOrderSerialize(root, res);
+            // StringBuilder res = new StringBuilder();
+            // preOrderSerialize(root, res);
             String res =  preOrderSerialize(root);
             return res.substring(0, res.length() - 1);
         }
