@@ -12,10 +12,10 @@ public class Day0518 {
 
     /**
      * 首先要解决的问题是：在未排序的数组中累加和为指定值的最长子数组
-     *
+     * TODO 二叉树中找到累加和
      */
     @Test
-    public void testMaxPath () {
+    public void testMaxPath() {
 
     }
 
@@ -29,9 +29,11 @@ public class Day0518 {
             return 0;
         }
 
-        private int maxLengthSubArray (int[] struct,int target,int index) {
+        private int maxLengthSubArray(int[] struct, int target, int index) {
             return 0;
-        };
+        }
+
+        ;
     }
 
 
@@ -44,7 +46,7 @@ public class Day0518 {
             return 0;
         }
 
-        private int treeMaxPath (TNode root,int target,int num) {
+        private int treeMaxPath(TNode root, int target, int num) {
             if (root == null) return 0;
             return 0;
         }
@@ -58,12 +60,12 @@ public class Day0518 {
      */
     private static interface MaxLengthStruct<T> {
 
-        int maxLength (T struct,int target);
+        int maxLength(T struct, int target);
     }
 
 
     private static class TNode {
-        TNode left,right;
+        TNode left, right;
         int data;
 
         public TNode(int data) {

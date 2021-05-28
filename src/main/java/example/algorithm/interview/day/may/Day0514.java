@@ -246,7 +246,6 @@ public class Day0514 {
 
         /**
          * 获得二叉树层数
-         * TODO 注意这个参数返回
          */
         private int getHeight(TNode root, int l) {
             if (root == null) return l;
