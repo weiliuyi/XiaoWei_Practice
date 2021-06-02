@@ -78,7 +78,7 @@ public class Day0526 {
          * @param k         需要k个数
          * @param curNumber 当前数字
          * @param curK      第K个数字
-         * @param res
+         * @param res       结果集合
          */
         private void numberCombine(int n, int k, int curNumber, int curK, Stack<Integer> path, List<Integer[]> res) {
             if (curK > k) {
