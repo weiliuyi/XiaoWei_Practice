@@ -40,6 +40,50 @@ public class Day0607 {
         System.out.println("------------------");
         FinalMinWindowSubstring finalMinWindowSub = new FinalMinWindowSubstring();
         System.out.println(finalMinWindowSub.slidingWindow("ADOBECODEBANC","ABC"));
+
+        System.out.println("---------------------");
+        SlidingWindow<String> finalV2MinWindowSub = new FinalV2MinWindowSubstring();
+        System.out.println(finalV2MinWindowSub.slidingWindow("ADOBECODEBANC","ABC"));
+    }
+
+
+
+    private static class FinalV2MinWindowSubstring implements SlidingWindow<String> {
+
+        @Override
+        public String slidingWindow(String content, String target) {
+            int[] accountBook = new int[256];
+            for (int i = 0; i < target.length(); i++) {
+                accountBook[target.charAt(i)]++;
+            }
+            int[] window = new int[256];
+            int need = 0;
+            int left = 0,right = 0;
+            String res = null;
+            while (right < content.length()) {
+                char rightChar = content.charAt(right++);
+                if (accountBook[rightChar] > 0) {
+                    window[rightChar]++;
+                    if (window[rightChar] == accountBook[rightChar]) {
+                        need++;
+                    }
+                }
+
+                while (need == target.length()) {
+                    res = (res == null || res.length() > (right-left + 1)) ? content.substring(left,right) : res;
+
+                    char leftChar = content.charAt(left++);
+                    if (accountBook[leftChar] > 0) {
+                        window[leftChar]--;
+                        if (window[leftChar] < accountBook[leftChar]) { // window[leftChar] 可能存在 > accountBook[leftChar]
+                            need--;
+                        }
+                    }
+                }
+            }
+
+            return res;
+        }
     }
 
 
