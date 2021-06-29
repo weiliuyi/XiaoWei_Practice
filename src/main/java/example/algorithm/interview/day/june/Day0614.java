@@ -72,7 +72,7 @@ public class Day0614 {
         int count = 0;
         for (int pile : piles) {
             //count += (pile % speed == 0 ? (pile / speed) : (pile / speed) + 1);
-            count += (pile / speed) + (pile % speed == 0 ?  0 : 1);
+            count += pile / speed + (pile % speed == 0 ?  0 : 1);
         }
         return count <= h;
     }
