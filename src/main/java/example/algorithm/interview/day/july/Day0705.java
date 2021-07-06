@@ -43,6 +43,19 @@ public class Day0705 {
         while (myHeap.size != 0) {
             System.out.println(myHeap.poll());
         }
+
+        System.out.println("-------------------------------");
+
+        IHeap<Integer> myHeapV2 = new MyHeapStruct();
+        myHeapV2.add(2);
+        myHeapV2.add(1);
+        myHeapV2.add(5);
+        myHeapV2.add(4);
+
+        while (myHeapV2.size() != 0) {
+            System.out.println(myHeapV2.poll());
+        }
+
     }
 
 
@@ -57,7 +70,7 @@ public class Day0705 {
 
         public MyHeapStruct() {
             this.size = 0;
-            array = new Integer[4];
+            array = new Integer[16];
         }
 
         void initialHeap(Integer[] array) {
@@ -76,18 +89,11 @@ public class Day0705 {
 
             int p = (index -1) / 2;
 
-            int left = (2 * p) -1,right = (2 * p) + 2;
-
-            int min = index;
-
-            if (arr[min] > arr[left]) min = left;
-
-            if (right < arr.length && arr[right] < arr[min]) min = right;
-
-            if (min != right) {
-                swap(arr,min,index);
+            if (arr[p] > arr[index]) {
+                swap(arr,p,index);
                 setUp(arr,p);
             }
+
 
 
         }
